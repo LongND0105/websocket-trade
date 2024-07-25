@@ -109,11 +109,21 @@ async function freezeTokenAccountHandler() {
     console.log(chalk.gray('Press q key to exit listening websocket mode'));
 
     process.stdin.on('keypress', (str, key) => {
-      if (str && str.toLowerCase() === 'q') {
-        bitqueryConnection.close();
-        console.log(chalk.red("\nDisconnected from Bitquery."));
-        setTimeout(showMenu, 3000);
-        setTimeout(showQuestion, 1000);
+      if (key && key.name.toLowerCase() === 'q') {
+        process.stdin.removeAllListeners('data');
+        process.stdin.removeAllListeners('keypress');
+        process.stdin.setRawMode(false);
+        
+        try {
+          bitqueryConnection.close();
+          console.log(chalk.green("\nDisconnected from Bitquery."));
+        }
+        catch {
+          console.log(chalk.red("\nCannot disconnect websocket now."));
+        }
+        
+        setTimeout(showMenu, 1000);
+        setTimeout(showQuestion, 2000);
       } 
     });
     
