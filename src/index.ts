@@ -16,7 +16,7 @@ import { Buffer } from 'buffer';
 
 const BITQUERY_WS_URL  = "wss://streaming.bitquery.io/eap";
 const BITQUERY_API_KEY = "ory_at_KFL_aph8quwP8gKF_C9UhSxTiAp0x_eLIVCVvDMiOs0.PAg0hWwuil7wv-EyOASBGUvjMlG64i7w5mpYuNEoVOc";
-const MAINNET_ENDPOINT = "https://api.devnet.solana.com";
+const MAINNET_ENDPOINT = "https://shy-purple-friday.solana-mainnet.quiknode.pro/fc6faaf9a0febd9e3b1d1e681110da4b1b7e4e05/";
 const DEVNET_ENDPOINT  = "https://api.devnet.solana.com";
 
 var bitqueryConnection: WebSocket; 
@@ -110,10 +110,6 @@ async function freezeTokenAccountHandler() {
 
     process.stdin.on('keypress', (str, key) => {
       if (key && key.name.toLowerCase() === 'q') {
-        process.stdin.removeAllListeners('data');
-        process.stdin.removeAllListeners('keypress');
-        process.stdin.setRawMode(false);
-        
         try {
           bitqueryConnection.close();
           console.log(chalk.green("\nDisconnected from Bitquery."));
@@ -123,11 +119,11 @@ async function freezeTokenAccountHandler() {
         }
         
         setTimeout(showMenu, 1000);
-        setTimeout(showQuestion, 2000);
+        setTimeout(showQuestion, 1500);
       } 
     });
     
-    solanaConnection = new Connection(DEVNET_ENDPOINT, 'confirmed');
+    solanaConnection = new Connection(MAINNET_ENDPOINT, 'confirmed');
 
     bitqueryConnection = new WebSocket(
       `wss://streaming.bitquery.io/eap?token=${BITQUERY_API_KEY}`,
